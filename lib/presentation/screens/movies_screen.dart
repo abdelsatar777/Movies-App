@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/manager/cubit.dart';
 import '../widgets/build_movies_list.dart';
 
 class MoviesScreen extends StatefulWidget {
@@ -9,13 +11,8 @@ class MoviesScreen extends StatefulWidget {
 }
 
 class _MoviesScreenState extends State<MoviesScreen> {
-  final List<String> categories = [
-    "Movies",
-    "Tv Series",
-    "Documentary",
-    "Sports"
-  ];
-  String selectedCategory = "Movies";
+  final List<String> categories = ["Movie", "Tv", "Documentary", "Sports"];
+  String selectedCategory = "Movie";
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +52,13 @@ class _MoviesScreenState extends State<MoviesScreen> {
               children: categories.map((category) {
                 final bool isSelected = selectedCategory == category;
                 return GestureDetector(
-                  onTap: () => setState(() => selectedCategory = category),
+                  onTap: () {
+                    setState(() {
+                      selectedCategory = category;
+                      BlocProvider.of<MoviesCubit>(context)
+                          .getMovies(type: selectedCategory.toLowerCase());
+                    });
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

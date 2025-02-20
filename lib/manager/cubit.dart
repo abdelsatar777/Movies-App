@@ -9,14 +9,14 @@ class MoviesCubit extends Cubit<AppState> {
   MoviesCubit() : super(InitialState());
   ApiService apiService = ApiService();
 
-  getMovies() async {
+  getMovies({required String type}) async {
     List<MoviesModel> movies = [];
     emit(LoadingState());
     try {
       for (int count = 1; count <= 10; count++) {
         var data = await apiService.get(
             endPoint:
-                "movie/popular?api_key=c217c2ceb96deb7de1b913eee12d55c8&language=en-US&page=$count");
+                "$type/popular?api_key=c217c2ceb96deb7de1b913eee12d55c8&language=en-US&page=$count");
         for (var i in data["results"]) {
           movies.add(
             MoviesModel(
