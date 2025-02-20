@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/manager/cubit.dart';
-import 'package:movies_app/pages/details_page.dart';
+import 'package:movies_app/pages/home_page_wrapper.dart';
 import 'package:movies_app/utils/colors.dart';
 
 main() {
@@ -18,11 +18,12 @@ class MoviesApp extends StatelessWidget {
         BlocProvider(create: (context) => MoviesCubit()..getMovies()),
         BlocProvider(
             create: (context) => TrendingMoviesCubit()..getTrendingMovies()),
+        BlocProvider(create: (context) => MoviesDetailsCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(scaffoldBackgroundColor: AppColors.primaryColor),
-        home: DetailsPage(),
+        home: HomePageWrapper(),
       ),
     );
   }

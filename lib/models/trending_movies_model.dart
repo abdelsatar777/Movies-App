@@ -1,13 +1,13 @@
-class MoviesModel {
+class TrendingMoviesModel {
   final String id;
   final String title;
-  final String date;
+  final String rate;
   final String image;
 
-  MoviesModel({
+  TrendingMoviesModel({
     required this.id,
     required this.title,
-    required this.date,
     required this.image,
+    required this.rate,
   });
 }

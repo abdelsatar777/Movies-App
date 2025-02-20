@@ -1,16 +1,29 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MovieDetailsCard extends StatelessWidget {
-  const MovieDetailsCard({super.key});
+  final String imgPath;
+  final String url;
+
+  const MovieDetailsCard({super.key, required this.imgPath, required this.url});
+
+  Future<void> _launchURL() async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw "No Find URL : $url";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.center, // لضبط كل العناصر في المنتصف
+      alignment: Alignment.center,
       children: [
         Image.network(
-          "assets/img/Default Movie.jpg",
+          "https://image.tmdb.org/t/p/w500$imgPath",
           width: double.infinity,
           height: 300,
           fit: BoxFit.cover,
@@ -24,7 +37,7 @@ class MovieDetailsCard extends StatelessWidget {
           },
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: _launchURL,
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
