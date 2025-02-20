@@ -13,6 +13,7 @@ class MoviesScreen extends StatefulWidget {
 class _MoviesScreenState extends State<MoviesScreen> {
   final List<String> categories = ["Movie", "Tv", "Documentary", "Sports"];
   String selectedCategory = "Movie";
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +33,16 @@ class _MoviesScreenState extends State<MoviesScreen> {
             ),
             const SizedBox(height: 10),
             TextField(
+              controller: searchController,
               cursorColor: Colors.white,
+              style: const TextStyle(color: Colors.white),
+              // جعل لون النص أبيض
+              onChanged: (value) {
+                BlocProvider.of<MoviesCubit>(context)
+                    .searchMovies(query: value);
+              },
               decoration: InputDecoration(
-                hintText: "Sherlock Holmes",
+                hintText: "Search for a movie...",
                 hintStyle: const TextStyle(color: Colors.white38, fontSize: 16),
                 prefixIcon: const Icon(Icons.search, color: Colors.white),
                 filled: true,
@@ -57,6 +65,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                       selectedCategory = category;
                       BlocProvider.of<MoviesCubit>(context)
                           .getMovies(type: selectedCategory.toLowerCase());
+                      searchController.clear(); // مسح البحث عند تغيير الفئة
                     });
                   },
                   child: Column(

@@ -33,6 +33,35 @@ class MoviesCubit extends Cubit<AppState> {
       emit(ErrorState(errorMassage: error.toString()));
     }
   }
+  searchMovies({required String query}) async {
+    if (query.isEmpty) {
+      getMovies(type: "movie"); // رجّع الليست العادية لو البحث فاضي
+      return;
+    }
+
+    List<MoviesModel> movies = [];
+    emit(LoadingState());
+    try {
+      var data = await apiService.get(
+        endPoint:
+        "search/movie?api_key=c217c2ceb96deb7de1b913eee12d55c8&language=en-US&query=$query&page=1&include_adult=false",
+      );
+      for (var i in data["results"]) {
+        movies.add(
+          MoviesModel(
+            id: i["id"].toString(),
+            title: i["original_title"] ?? "No Title",
+            date: i["release_date"] ?? "No Date",
+            image: i["poster_path"] ?? "No Image",
+          ),
+        );
+      }
+      emit(SuccessStateMovies(movies: movies));
+    } catch (error) {
+      emit(ErrorState(errorMassage: error.toString()));
+    }
+  }
+
 }
 
 class TrendingMoviesCubit extends Cubit<AppState> {
