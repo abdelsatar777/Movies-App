@@ -28,7 +28,7 @@ class ContinueWatchingCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 // تأثير البلور
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 26, vertical: 16),
